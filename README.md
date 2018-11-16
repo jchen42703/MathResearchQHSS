@@ -19,6 +19,7 @@ Code snippets for various statistics tests for math research. QHSS@YC
 git clone https://github.com/jchen42703/MathResearchQHSS.git
 cd MathResearchQHSS
 pip install -r requirements.txt
+cd '/home/'
 python import MathResearchQHSS
 ```
 
