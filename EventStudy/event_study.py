@@ -55,7 +55,7 @@ class EventStudy(object):
       data: pandas datafrane of adjusted stock prices for company around day of event
       market: pandas dataframe of adjusted stock prices of reference market around the day of event
    '''
-  def __init__(self, data, market, start_period, end_period, start_window, end_window):
+  def __init__(self, data, market):
     self.data = data
     self.market = market
 
