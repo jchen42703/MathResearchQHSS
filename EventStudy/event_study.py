@@ -136,7 +136,14 @@ class EventStudy(object):
     self.t_test.name = 't-test'
     self.prob = self.t_test.apply(stats.norm.cdf)
     self.prob.name = 'Probability'
-    #
-    sorted_df = data.sort_values(by='date')
-    new = sorted_df.set_index('date').drop(['ticker'], axis = 1)
-    return new
+
+  def summary(self):
+      '''
+      Produces a dataframe summary of all metrics. 
+      * Used after self.market_return()
+      '''
+      metrics_dict = {'Expected Return': self.er, 'Abnormal Return': self.ar,
+                      'Cumulative Abnormal Return': self.car, 'T-Test': self.t_test,
+                      'p-value': self.prob
+                      }
+      return pd.DataFrame.from_dict(metrics_dict, orient = 'index', columns = ['Metric Values'])
