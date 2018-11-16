@@ -108,7 +108,7 @@ class EventStudy(object):
   
   def market_return(self):
     '''
-    Returns a pandas dataframe of the metrics for each date.
+    Sets attributes for the Event Study class for metrics.
     '''
     # 1. Linear Regression: On the estimation_period
     dr_data = EventStudy.returns(self.data)
@@ -124,18 +124,28 @@ class EventStudy(object):
 
     # 2. Analysis on the event window
     # Expexted Return:
-    er = dr_market.apply(er)[c_name]
+    self.er = dr_market.apply(er)[c_name]
+    self.er.name = 'Expected return'
     # Abnormal return: Return of the data - expected return
-    ar = dr_data[c_name] - self.er
+    self.ar = dr_data[c_name] - self.er
+    self.ar.name = 'Abnormal return'
     # Cumulative abnormal return
-    car = self.ar.cumsum()
+    self.car = self.ar.cumsum()
+    self.car.name = 'Cum abnormal return'
     # t-test
     t_test_calc = lambda x: x / std_error
-    t_test = self.ar.apply(t_test_calc)
-    prob = self.t_test.apply(stats.norm.cdf)
-    
-    metrics_dict = {'Expected Return': er, 'Abnormal Return': ar,
-                      'Cumulative Abnormal Return': car, 'T-Test': t_test,
-                      'p-value': prob
+    self.t_test = self.ar.apply(t_test_calc)
+    self.t_test.name = 't-test'
+    self.prob = self.t_test.apply(stats.norm.cdf)
+    self.prob.name = 'Probability'
+
+  def summary(self):
+      '''
+      Produces a dataframe summary of all metrics. 
+      * Used after self.market_return()
+      '''
+      metrics_dict = {'Expected Return': self.er, 'Abnormal Return': self.ar,
+                      'Cumulative Abnormal Return': self.car, 'T-Test': self.t_test,
+                      'p-value': self.prob
                       }
-    return pd.DataFrame.from_dict(metrics_dict)
+      return pd.DataFrame.from_dict(metrics_dict, orient = 'index', columns = ['Metric Values'])
