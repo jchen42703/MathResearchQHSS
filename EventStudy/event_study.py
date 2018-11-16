@@ -6,6 +6,7 @@ from scipy import stats
 
 class EventLoader_Custom(object):
   '''
+  Loads data for adjusted closing stock prices on a specified window around a date
   Attributes:
     date_string: YYYYMMDD
     window: int
