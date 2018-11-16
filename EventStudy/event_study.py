@@ -126,13 +126,13 @@ class EventStudy(object):
     # Expexted Return:
     er = dr_market.apply(er)[c_name]
     # Abnormal return: Return of the data - expected return
-    ar = dr_data[c_name] - self.er
+    ar = dr_data[c_name] - er
     # Cumulative abnormal return
-    car = self.ar.cumsum()
+    car = ar.cumsum()
     # t-test
     t_test_calc = lambda x: x / std_error
-    t_test = self.ar.apply(t_test_calc)
-    prob = self.t_test.apply(stats.norm.cdf)
+    t_test = ar.apply(t_test_calc)
+    prob = t_test.apply(stats.norm.cdf)
     
     metrics_dict = {'Expected Return': er, 'Abnormal Return': ar,
                       'Cumulative Abnormal Return': car, 'T-Test': t_test,
