@@ -118,7 +118,6 @@ class EventStudy(object):
     x =  dr_market[c_name]
     y = dr_data[c_name]
     assert x.shape[0] > 0
-    print(x.shape)
     slope, intercept, r_value, p_value, std_error = stats.linregress(x, y)
     er = lambda x: x * slope + intercept
 
