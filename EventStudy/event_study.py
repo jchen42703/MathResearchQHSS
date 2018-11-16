@@ -49,12 +49,12 @@ class EventLoader_Custom(object):
                         paginate=True) 
                         
 class EventStudy(object):
-   '''
+  '''
     Produces metrics for event study.
     Attributes:
       data: pandas datafrane of adjusted stock prices for company around day of event
       market: pandas dataframe of adjusted stock prices of reference market around the day of event
-   '''
+  '''
   def __init__(self, data, market):
     self.data = data
     self.market = market
