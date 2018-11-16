@@ -49,22 +49,13 @@ class EventLoader_Custom(object):
 class EventStudy(object):
   def __init__(self, data, market, start_period, end_period, start_window, end_window):
     '''
+    Produces metrics for event study.
     Attributes:
-      data: df of company for event
-      market: df of reference market
-      start_period:
-      end_period:
-      start_window:
-      end_window
-
+      data: pandas datafrane of adjusted stock prices for company around day of event
+      market: pandas dataframe of adjusted stock prices of reference market around the day of event
     '''
     self.data = data
     self.market = market
-
-    self.start_period = start_period
-    self.end_period = end_period
-    self.start_window = start_window
-    self.end_window = end_window
 
   @staticmethod
   def returns(data, basedOn=1, cc=False, col=None):
@@ -115,15 +106,15 @@ class EventStudy(object):
   
   def market_return(self):
     '''
-    getting the AAR, CAR, etc. [NEEDS TO BE CHANGED]
+    Sets attributes for the Event Study class for metrics.
     '''
     # 1. Linear Regression: On the estimation_period
     dr_data = EventStudy.returns(self.data)
     dr_market = EventStudy.returns(self.market)
     
     c_name = dr_data.columns[0]
-    x =  dr_market[c_name]#[self.start_period:self.end_period]
-    y = dr_data[c_name]#[self.start_period:self.end_period]
+    x =  dr_market[c_name]
+    y = dr_data[c_name]
     assert x.shape[0] > 0
     print(x.shape)
     slope, intercept, r_value, p_value, std_error = stats.linregress(x, y)
@@ -131,10 +122,10 @@ class EventStudy(object):
 
     # 2. Analysis on the event window
     # Expexted Return:
-    self.er = dr_market[self.start_window:self.end_window].apply(er)[c_name]
+    self.er = dr_market.apply(er)[c_name]
     self.er.name = 'Expected return'
     # Abnormal return: Return of the data - expected return
-    self.ar = dr_data[c_name][self.start_window:self.end_window] - self.er
+    self.ar = dr_data[c_name] - self.er
     self.ar.name = 'Abnormal return'
     # Cumulative abnormal return
     self.car = self.ar.cumsum()
