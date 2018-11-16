@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np 
 from scipy import stats 
 
+quandl.ApiConfig.api_key = 'YwMn-jZt3hjv1AXZS57Z'
+
 class EventLoader_Custom(object):
   '''
   Loads data for adjusted closing stock prices on a specified window around a date
