@@ -18,35 +18,40 @@ class EventLoader_Custom(object):
       self.date_string = date_string
       self.window = window
       self.ticker = ticker
-    
+
+      datetime_object = datetime.datetime.strptime(self.date_string, '%Y%m%d')
+      self.gte = datetime_object - datetime.timedelta(self.window)
+      self.lte = datetime_object + datetime.timedelta(self.window)
+      
   def data_load(self):
       '''
       loading sorted data table around specified date and window
       '''
-      datetime_object = datetime.datetime.strptime(self.date_string, '%Y%m%d')
-      gte = datetime_object - datetime.timedelta(self.window)
-      lte = datetime_object + datetime.timedelta(self.window)
       # get the table for daily stock prices and,
       # filter the table for selected tickers, columns within a time range
       # set paginate to True because Quandl limits tables API to 10,000 rows per call
       
       data = quandl.get_table('WIKI/PRICES', ticker = self.ticker[0], 
                               qopts = { 'columns': ['ticker', 'date', 'adj_close'] }, 
-                              date = { 'gte': gte, 'lte': lte }, 
+                              date = { 'gte': self.gte, 'lte': self.lte }, 
                               paginate=True) 
-      #
+      
       sorted_df = data.sort_values(by='date')
       new = sorted_df.set_index('date').drop(['ticker'], axis = 1)
       return new
   
-  def load_reference(self):
+  def reference_load(self):
       '''
       loading reference market data with window and time
       '''
       data = quandl.get_table('WIKI/PRICES', ticker = self.ticker[1], 
                           qopts = { 'columns': ['ticker', 'date', 'adj_close'] }, 
-                          date = { 'gte': gte, 'lte': lte }, 
+                          date = { 'gte': self.gte, 'lte': self.lte }, 
                           paginate=True) 
+                          
+      sorted_df = data.sort_values(by='date')
+      new = sorted_df.set_index('date').drop(['ticker'], axis = 1)
+      return new
                         
 class EventStudy(object):
   '''
