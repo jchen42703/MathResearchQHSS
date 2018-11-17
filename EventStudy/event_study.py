@@ -168,7 +168,8 @@ class EventStudy(object):
       fig, (ax1, ax2) = plt.subplots(1,2, figsize= (16,8))
             
       self.data.plot(ax = ax1, title = 'Company v. Reference Adjusted Closing Stock Prices', 
-                     ylim = (0, max(self.data.max(), self.market.max())))
+                     ylim = (0, max(float(self.data.max()), float(self.market.max())))
+                    )
       self.market.plot(ax=ax1)
       ax1.legend(['Company Stock Price', 'Reference Market Stock Price'])
 
