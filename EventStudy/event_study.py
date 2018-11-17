@@ -40,13 +40,13 @@ class EventLoader_Custom(object):
       return new
   
   def load_reference(self):
-    '''
-    loading reference market data with window and time
-    '''
-    data = quandl.get_table('WIKI/PRICES', ticker = self.ticker[1], 
-                        qopts = { 'columns': ['ticker', 'date', 'adj_close'] }, 
-                        date = { 'gte': gte, 'lte': lte }, 
-                        paginate=True) 
+      '''
+      loading reference market data with window and time
+      '''
+      data = quandl.get_table('WIKI/PRICES', ticker = self.ticker[1], 
+                          qopts = { 'columns': ['ticker', 'date', 'adj_close'] }, 
+                          date = { 'gte': gte, 'lte': lte }, 
+                          paginate=True) 
                         
 class EventStudy(object):
   '''
@@ -56,8 +56,8 @@ class EventStudy(object):
       market: pandas dataframe of adjusted stock prices of reference market around the day of event
   '''
   def __init__(self, data, market):
-    self.data = data
-    self.market = market
+      self.data = data
+      self.market = market
 
   @staticmethod
   def returns(data, basedOn=1, cc=False, col=None):
@@ -107,41 +107,63 @@ class EventStudy(object):
               return data.apply(EventStudy.returns, cc=cc, basedOn=basedOn)
   
   def market_return(self, final_metrics = False):
-    '''
-    Returns a pandas dataframe of the metrics for each date.
-    final_metrics: Boolean on whether or not to return the final_metrics instead of the table with all of the metrics
-    '''
-    # 1. Linear Regression: On the estimation_period
-    dr_data = EventStudy.returns(self.data)
-    dr_market = EventStudy.returns(self.market)
-    
-    c_name = dr_data.columns[0]
-    x =  dr_market[c_name]
-    y = dr_data[c_name]
-    assert x.shape[0] > 0
-    slope, intercept, r_value, p_value, std_error = stats.linregress(x, y)
-    er = lambda x: x * slope + intercept
+      '''
+      Returns a pandas dataframe of the metrics for each date.
+      final_metrics: Boolean on whether or not to return the final_metrics instead of the table with all of the metrics
+      '''
+      # 1. Linear Regression: On the estimation_period
+      dr_data = EventStudy.returns(self.data)
+      dr_market = EventStudy.returns(self.market)
 
-    # 2. Analysis on the event window
-    # Expexted Return:
-    er = dr_market.apply(er)[c_name]
-    # Abnormal return: Return of the data - expected return
-    ar = dr_data[c_name] - er
-    # Cumulative abnormal return
-    car = ar.cumsum()
-    # t-test
-    t_test_calc = lambda x: x / std_error
-    t_test = ar.apply(t_test_calc)
-    prob = t_test.apply(stats.norm.cdf)
-    
-    if final_metrics: 
-      misc_metrics = {'CAR': car[-1], 'T-Test': t_test[-1]
-                     }
-      return pd.DataFrame.from_dict(misc_metrics)
-    
-    else:    
-      metrics_dict = {'Expected Returns': er, 'Abnormal Returns': ar,
-                     'Cumulative Abnormal Returns': car, 'T-Test': t_test,
-                     'p-value': prob
-                      }
-      return pd.DataFrame.from_dict(metrics_dict)
+      c_name = dr_data.columns[0]
+      x =  dr_market[c_name]
+      y = dr_data[c_name]
+      assert x.shape[0] > 0
+      slope, intercept, r_value, p_value, std_error = stats.linregress(x, y)
+      er = lambda x: x * slope + intercept
+
+      # 2. Analysis on the event window
+      # Expexted Return:
+      er = dr_market.apply(er)[c_name]
+      # Abnormal return: Return of the data - expected return
+      ar = dr_data[c_name] - er
+      # Cumulative abnormal return
+      car = ar.cumsum()
+      # t-test
+      t_test_calc = lambda x: x / std_error
+      t_test = ar.apply(t_test_calc)
+      prob = t_test.apply(stats.norm.cdf)
+
+      if final_metrics: 
+        misc_metrics = {'CAR': car[-1], 'T-Test': t_test[-1]
+                       }
+        return pd.DataFrame.from_dict(misc_metrics)
+
+      else:    
+        metrics_dict = {'Expected Returns': er, 'Abnormal Returns': ar,
+                       'Cumulative Abnormal Returns': car, 'T-Test': t_test,
+                       'p-value': prob
+                        }
+        return pd.DataFrame.from_dict(metrics_dict)
+      
+  def plot_results(self, metrics_df):
+      '''
+      Plots:
+      * Stock prices for company and reference in the window
+      * AR and CAR
+
+      Args:
+          metrics_df: dataframe of metrics produced by market_return() when final_metrics = False
+      '''
+      sns.set_style("ticks")
+      sns.despine()
+
+      fig, (ax1, ax2) = plt.subplots(1,2, figsize= (16,8))
+
+      self.data.plot(ax = ax1, title = 'Company v. Reference Adjusted Closing Stock Prices', ylim = (0,14))
+      self.market.plot(ax=ax1)
+      ax1.legend(['Company Stock Price', 'Reference Market Stock Price'])
+
+      metrics_df['Abnormal Return'].plot(ax = ax2, title = 'Abnormal Returns and Cumulative Abnormal Returns')#, title = 'Abnormal Returns')#, ylim = (-0.015, 0.018))
+      metrics_df['Cumulative Abnormal Return'].plot(ax=ax2)
+      ax2.legend(['AR', 'CAR'], loc = 'lower left')
