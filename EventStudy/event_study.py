@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 quandl.ApiConfig.api_key = 'YwMn-jZt3hjv1AXZS57Z'
 
-class EventLoader_Custom(object):
+class EventLoader(object):
   '''
   Loads data for adjusted closing stock prices on a specified window around a date
   Attributes:
@@ -16,45 +16,45 @@ class EventLoader_Custom(object):
     window: int
     tickers: list of [company, reference] symbols
   '''
-  def __init__(self, date_string, window = 15, ticker = ['AAPL', 'MSFT']):
+  def __init__(self, date_string, tickers, window = 15):
       self.date_string = date_string
+      self.tickers = tickers
       self.window = window
-      self.ticker = ticker
-
-      datetime_object = datetime.datetime.strptime(self.date_string, '%Y%m%d')
-      self.gte = datetime_object - datetime.timedelta(self.window)
-      self.lte = datetime_object + datetime.timedelta(self.window)
-      
-  def data_load(self):
+  
+  @staticmethod
+  def data_load(date_string, window, ticker):
       '''
-      loading sorted data table around specified date and window
+      Loading sorted data table around specified date and window
+      Args:
+        date_string:
+        window:
+        ticker: single company symbol
       '''
       # get the table for daily stock prices and,
       # filter the table for selected tickers, columns within a time range
       # set paginate to True because Quandl limits tables API to 10,000 rows per call
+      datetime_object = datetime.datetime.strptime(date_string, '%Y%m%d')
+      gte = datetime_object - datetime.timedelta(window)
+      lte = datetime_object + datetime.timedelta(window)
       
-      data = quandl.get_table('WIKI/PRICES', ticker = self.ticker[0], 
+      data = quandl.get_table('WIKI/PRICES', ticker = ticker, 
                               qopts = { 'columns': ['ticker', 'date', 'adj_close'] }, 
-                              date = { 'gte': self.gte, 'lte': self.lte }, 
+                              date = { 'gte': gte, 'lte': lte }, 
                               paginate=True) 
-      
+     
       sorted_df = data.sort_values(by='date')
       new = sorted_df.set_index('date').drop(['ticker'], axis = 1)
       return new
-  
-  def reference_load(self):
+    
+  def ev_load(self):
       '''
-      loading reference market data with window and time
+      Loads both the company of interest's data and the reference market data
       '''
-      data = quandl.get_table('WIKI/PRICES', ticker = self.ticker[1], 
-                          qopts = { 'columns': ['ticker', 'date', 'adj_close'] }, 
-                          date = { 'gte': self.gte, 'lte': self.lte }, 
-                          paginate=True) 
-                          
-      sorted_df = data.sort_values(by='date')
-      new = sorted_df.set_index('date').drop(['ticker'], axis = 1)
-      return new
-                        
+      df = EventStudy.data_load(self.date_string, self.window, self.tickers[0])
+      df_reference = EventStudy.data_load(self.date_string, self.window, self.tickers[1])
+      assert df.shape[0] == df_reference.shape[0]
+      return df, df_reference
+                           
 class EventStudy(object):
   '''
     Produces metrics for event study.
