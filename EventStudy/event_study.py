@@ -50,7 +50,7 @@ class EventLoader(object):
       '''
       Loads both the company of interest's data and the reference market data
       '''
-      df = EventStudy.data_load(self.date_string, self.window, self.tickers[0])
+      df = EventLoader.data_load(self.date_string, self.window, self.tickers[0])
       df_reference = EventStudy.data_load(self.date_string, self.window, self.tickers[1])
       assert df.shape[0] == df_reference.shape[0]
       return df, df_reference
