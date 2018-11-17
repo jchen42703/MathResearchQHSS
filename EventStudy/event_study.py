@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np 
 from scipy import stats 
 import seaborn as sns
+import matplotlib.pyplot as plt
+%matplotlib inline
 
 quandl.ApiConfig.api_key = 'YwMn-jZt3hjv1AXZS57Z'
 
