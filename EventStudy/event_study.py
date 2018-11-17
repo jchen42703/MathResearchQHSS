@@ -5,7 +5,6 @@ import numpy as np
 from scipy import stats 
 import seaborn as sns
 import matplotlib.pyplot as plt
-#%matplotlib inline
 
 quandl.ApiConfig.api_key = 'YwMn-jZt3hjv1AXZS57Z'
 
@@ -131,7 +130,7 @@ class EventStudy(object):
       er = lambda x: x * slope + intercept
 
       # 2. Analysis on the event window
-      # Expexted Return:
+      # Expected Return:
       er = dr_market.apply(er)[c_name]
       # Abnormal return: Return of the data - expected return
       ar = dr_data[c_name] - er
@@ -172,6 +171,6 @@ class EventStudy(object):
       self.market.plot(ax=ax1)
       ax1.legend(['Company Stock Price', 'Reference Market Stock Price'])
 
-      metrics_df['Abnormal Return'].plot(ax = ax2, title = 'Abnormal Returns and Cumulative Abnormal Returns')#, title = 'Abnormal Returns')#, ylim = (-0.015, 0.018))
-      metrics_df['Cumulative Abnormal Return'].plot(ax=ax2)
+      metrics_df['Abnormal Returns'].plot(ax = ax2, title = 'Abnormal Returns and Cumulative Abnormal Returns')#, title = 'Abnormal Returns')#, ylim = (-0.015, 0.018))
+      metrics_df['Cumulative Abnormal Returns'].plot(ax=ax2)
       ax2.legend(['AR', 'CAR'], loc = 'lower left')
