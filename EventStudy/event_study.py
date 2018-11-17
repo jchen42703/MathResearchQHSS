@@ -3,10 +3,12 @@ import quandl
 import pandas as pd
 import numpy as np 
 from scipy import stats 
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 quandl.ApiConfig.api_key = 'YwMn-jZt3hjv1AXZS57Z'
 
-class EventLoader_Custom(object):
+class EventLoader(object):
   '''
   Loads data for adjusted closing stock prices on a specified window around a date
   Attributes:
@@ -14,40 +16,45 @@ class EventLoader_Custom(object):
     window: int
     tickers: list of [company, reference] symbols
   '''
-  def __init__(self, date_string, window = 15, ticker = ['AAPL', 'MSFT']):
+  def __init__(self, date_string, tickers, window = 15):
       self.date_string = date_string
+      self.tickers = tickers
       self.window = window
-      self.ticker = ticker
-    
-  def data_load(self):
+  
+  @staticmethod
+  def data_load(date_string, window, ticker):
       '''
-      loading sorted data table around specified date and window
+      Loading sorted data table around specified date and window
+      Args:
+        date_string:
+        window:
+        ticker: single company symbol
       '''
-      datetime_object = datetime.datetime.strptime(self.date_string, '%Y%m%d')
-      gte = datetime_object - datetime.timedelta(self.window)
-      lte = datetime_object + datetime.timedelta(self.window)
       # get the table for daily stock prices and,
       # filter the table for selected tickers, columns within a time range
       # set paginate to True because Quandl limits tables API to 10,000 rows per call
+      datetime_object = datetime.datetime.strptime(date_string, '%Y%m%d')
+      gte = datetime_object - datetime.timedelta(window)
+      lte = datetime_object + datetime.timedelta(window)
       
-      data = quandl.get_table('WIKI/PRICES', ticker = self.ticker[0], 
+      data = quandl.get_table('WIKI/PRICES', ticker = ticker, 
                               qopts = { 'columns': ['ticker', 'date', 'adj_close'] }, 
                               date = { 'gte': gte, 'lte': lte }, 
                               paginate=True) 
-      #
+     
       sorted_df = data.sort_values(by='date')
       new = sorted_df.set_index('date').drop(['ticker'], axis = 1)
       return new
-  
-  def load_reference(self):
-    '''
-    loading reference market data with window and time
-    '''
-    data = quandl.get_table('WIKI/PRICES', ticker = self.ticker[1], 
-                        qopts = { 'columns': ['ticker', 'date', 'adj_close'] }, 
-                        date = { 'gte': gte, 'lte': lte }, 
-                        paginate=True) 
-                        
+    
+  def ev_load(self):
+      '''
+      Loads both the company of interest's data and the reference market data
+      '''
+      df = EventLoader.data_load(self.date_string, self.window, self.tickers[0])
+      df_reference = EventLoader.data_load(self.date_string, self.window, self.tickers[1])
+      assert df.shape[0] == df_reference.shape[0]
+      return df, df_reference
+                           
 class EventStudy(object):
   '''
     Produces metrics for event study.
@@ -56,8 +63,8 @@ class EventStudy(object):
       market: pandas dataframe of adjusted stock prices of reference market around the day of event
   '''
   def __init__(self, data, market):
-    self.data = data
-    self.market = market
+      self.data = data
+      self.market = market
 
   @staticmethod
   def returns(data, basedOn=1, cc=False, col=None):
@@ -106,35 +113,66 @@ class EventStudy(object):
           else:
               return data.apply(EventStudy.returns, cc=cc, basedOn=basedOn)
   
-  def market_return(self):
-    '''
-    Returns a pandas dataframe of the metrics for each date.
-    '''
-    # 1. Linear Regression: On the estimation_period
-    dr_data = EventStudy.returns(self.data)
-    dr_market = EventStudy.returns(self.market)
-    
-    c_name = dr_data.columns[0]
-    x =  dr_market[c_name]
-    y = dr_data[c_name]
-    assert x.shape[0] > 0
-    slope, intercept, r_value, p_value, std_error = stats.linregress(x, y)
-    er = lambda x: x * slope + intercept
+  def market_return(self, final_metrics = False):
+      '''
+      Returns a pandas dataframe of the metrics for each date.
+      final_metrics: Boolean on whether or not to return the final_metrics instead of the table with all of the metrics
+      '''
+      # 1. Linear Regression: On the estimation_period
+      dr_data = EventStudy.returns(self.data)
+      dr_market = EventStudy.returns(self.market)
 
-    # 2. Analysis on the event window
-    # Expexted Return:
-    er = dr_market.apply(er)[c_name]
-    # Abnormal return: Return of the data - expected return
-    ar = dr_data[c_name] - er
-    # Cumulative abnormal return
-    car = ar.cumsum()
-    # t-test
-    t_test_calc = lambda x: x / std_error
-    t_test = ar.apply(t_test_calc)
-    prob = t_test.apply(stats.norm.cdf)
-    
-    metrics_dict = {'Expected Return': er, 'Abnormal Return': ar,
-                      'Cumulative Abnormal Return': car, 'T-Test': t_test,
-                      'p-value': prob
-                      }
-    return pd.DataFrame.from_dict(metrics_dict)
+      c_name = dr_data.columns[0]
+      x =  dr_market[c_name]
+      y = dr_data[c_name]
+      assert x.shape[0] > 0
+      slope, intercept, r_value, p_value, std_error = stats.linregress(x, y)
+      er = lambda x: x * slope + intercept
+
+      # 2. Analysis on the event window
+      # Expected Return:
+      er = dr_market.apply(er)[c_name]
+      # Abnormal return: Return of the data - expected return
+      ar = dr_data[c_name] - er
+      # Cumulative abnormal return
+      car = ar.cumsum()
+      # t-test
+      t_test_calc = lambda x: x / std_error
+      t_test = ar.apply(t_test_calc)
+      prob = t_test.apply(stats.norm.cdf)
+
+      if final_metrics: 
+        misc_metrics = {'CAR': car[-1], 'T-Test': t_test[-1]
+                       }
+        return pd.DataFrame.from_dict(misc_metrics)
+
+      else:    
+        metrics_dict = {'Expected Returns': er, 'Abnormal Returns': ar,
+                       'Cumulative Abnormal Returns': car, 'T-Test': t_test,
+                       'p-value': prob
+                        }
+        return pd.DataFrame.from_dict(metrics_dict)
+      
+  def plot_results(self, metrics_df):
+      '''
+      Plots:
+      * Stock prices for company and reference in the window
+      * AR and CAR
+
+      Args:
+          metrics_df: dataframe of metrics produced by market_return() when final_metrics = False
+      '''
+      sns.set_style("ticks")
+      sns.despine()
+
+      fig, (ax1, ax2) = plt.subplots(1,2, figsize= (16,8))
+            
+      self.data.plot(ax = ax1, title = 'Company v. Reference Adjusted Closing Stock Prices', 
+                     ylim = 0 #(0, max(float(self.data.max()), float(self.market.max())))
+                    )
+      self.market.plot(ax=ax1)
+      ax1.legend(['Company Stock Price', 'Reference Market Stock Price'])
+
+      metrics_df['Abnormal Returns'].plot(ax = ax2, title = 'Abnormal Returns and Cumulative Abnormal Returns')
+      metrics_df['Cumulative Abnormal Returns'].plot(ax=ax2)
+      ax2.legend(['AR', 'CAR'], loc = 'lower left')
