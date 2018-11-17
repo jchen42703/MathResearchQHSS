@@ -166,13 +166,12 @@ class EventStudy(object):
       sns.despine()
 
       fig, (ax1, ax2) = plt.subplots(1,2, figsize= (16,8))
-      
-      
+            
       self.data.plot(ax = ax1, title = 'Company v. Reference Adjusted Closing Stock Prices', 
-                     ylim = (0, max(self.data.max(), self.market.max()))
+                     ylim = (0, max(self.data.max(), self.market.max())))
       self.market.plot(ax=ax1)
       ax1.legend(['Company Stock Price', 'Reference Market Stock Price'])
 
-      metrics_df['Abnormal Returns'].plot(ax = ax2, title = 'Abnormal Returns and Cumulative Abnormal Returns')#, title = 'Abnormal Returns')#, ylim = (-0.015, 0.018))
+      metrics_df['Abnormal Returns'].plot(ax = ax2, title = 'Abnormal Returns and Cumulative Abnormal Returns')
       metrics_df['Cumulative Abnormal Returns'].plot(ax=ax2)
       ax2.legend(['AR', 'CAR'], loc = 'lower left')
