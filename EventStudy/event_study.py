@@ -106,9 +106,10 @@ class EventStudy(object):
           else:
               return data.apply(EventStudy.returns, cc=cc, basedOn=basedOn)
   
-  def market_return(self):
+  def market_return(self, final_metrics = False):
     '''
     Returns a pandas dataframe of the metrics for each date.
+    final_metrics: Boolean on whether or not to return the final_metrics instead of the table with all of the metrics
     '''
     # 1. Linear Regression: On the estimation_period
     dr_data = EventStudy.returns(self.data)
@@ -133,8 +134,14 @@ class EventStudy(object):
     t_test = ar.apply(t_test_calc)
     prob = t_test.apply(stats.norm.cdf)
     
-    metrics_dict = {'Expected Return': er, 'Abnormal Return': ar,
-                      'Cumulative Abnormal Return': car, 'T-Test': t_test,
-                      'p-value': prob
+    if final_metrics: 
+      misc_metrics = {'CAR': car[-1], 'T-Test': t_test[-1]
+                     }
+      return pd.DataFrame.from_dict(misc_metrics)
+    
+    else:    
+      metrics_dict = {'Expected Returns': er, 'Abnormal Returns': ar,
+                     'Cumulative Abnormal Returns': car, 'T-Test': t_test,
+                     'p-value': prob
                       }
-    return pd.DataFrame.from_dict(metrics_dict)
+      return pd.DataFrame.from_dict(metrics_dict)
