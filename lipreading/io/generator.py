@@ -34,6 +34,8 @@ class FrameGenerator(BaseGenerator):
         import skvideo.io
         x = []
         y = []
+        label_length = []
+        input_length = []
         for file_id in list_IDs_temp:
             # for file_x, file_y in zip(batch_x, batch_y):
             file_x = os.path.join(self.data_dirs[0] + file_id + '.mpg')
