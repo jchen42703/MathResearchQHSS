@@ -4,7 +4,7 @@ import os
 from glob import glob
 
 # Utility Functions
-def get_list_IDs(any_path):
+def get_list_IDs(any_path, val_split = 0.8):
     '''
     param any_path: directory to either the align files or the .mpg files;
     i.e. s1_path or s1_align
