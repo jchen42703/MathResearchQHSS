@@ -42,12 +42,12 @@ class FrameGenerator(BaseGenerator):
             file_y = self.align[file_id]#os.path.join(self.data_dirs[1] + file_id + '.align')
             
             # assume 4d
-            video = skvideo.io.vread(file_x)
+            video = np.asarray(skvideo.io.vread(file_x))
             
             label_length.append(file_y.label_length) # CHANGED [A] -> A, CHECK!
             # input_length.append([video_unpadded_length - 2]) # 2 first frame discarded
-            input_length.append(video.length) # Just use the video padded length to avoid CTC No path found error (v_len < a_len)
-            x.append(video.data), y.append(file_y.padded_label)
+            input_length.append(video.shape[0]) # Just use the video padded length to avoid CTC No path found error (v_len < a_len)
+            x.append(video), y.append(file_y.padded_label)
             
         inputs = {'the_input': x,
           'the_labels': y,
