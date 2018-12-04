@@ -1,4 +1,4 @@
-from io_utils import *
+from MathResearchQHSS.lipreading.io.io_utils import *
 import numpy as np
 import keras
 import skvideo
