@@ -37,7 +37,7 @@ def enumerate_align_hash(align_path, absolute_max_string_len):
     align_hash = {}
     video_list = glob(align_path+'*.align', recursive = True)
     for (i,video_path) in enumerate(video_list):
-        video_id = os.path.splitext(video_path)[0].split('\\')[-1]
+        video_id = os.path.splitext(video_path)[0].split('/')[-1] # split('\\') for windows
         align_hash[video_id] = Align(absolute_max_string_len, text_to_labels).from_file(video_path)
     return align_hash
 
