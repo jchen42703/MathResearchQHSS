@@ -70,5 +70,5 @@ class LipNet(object):
         # captures output of softmax so we can decode the output during visualization
         return K.function([self.input_data, K.learning_phase()], [self.y_pred, K.learning_phase()])
 
-lip = LipNet()
-lip.summary()
+# lip = LipNet()
+# lip.summary()
