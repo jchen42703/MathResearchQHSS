@@ -50,15 +50,10 @@ class FrameGenerator(BaseGenerator):
             input_length.append(video.shape[0]) # Just use the video padded length to avoid CTC No path found error (v_len < a_len)
             x.append(video), y.append(file_y.padded_label)
             
-        inputs = {'the_input': x,
-          'the_labels': y,
-          'input_length': input_length,
-          'label_length': label_length,
+        inputs = {'the_input': np.asarray(x),
+          'the_labels': np.asarray(y),
+          'input_length': np.asarray(input_length),
+          'label_length': np.asarray(label_length),
          }
-        outputs = {'ctc': np.zeros([self.output_size])}
+        outputs = {'ctc': np.zeros([self.batch_size])}#.reshape(,self.output_size)}
         return (inputs, outputs)
-#
-# list_IDs = get_list_IDs(s1_path)
-# data_dirs = [s1_path, s1_align_path]
-# gen = FrameGenerator(list_IDs['train'], data_dirs, batch_size = 1)
-# gen.__getitem__(1)
