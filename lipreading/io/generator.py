@@ -42,7 +42,7 @@ class FrameGenerator(BaseGenerator):
             # assume 4d
             video = skvideo.io.vread(file_x)
             
-            label_length.append(align.label_length) # CHANGED [A] -> A, CHECK!
+            label_length.append(file_y.label_length) # CHANGED [A] -> A, CHECK!
             # input_length.append([video_unpadded_length - 2]) # 2 first frame discarded
             input_length.append(video.length) # Just use the video padded length to avoid CTC No path found error (v_len < a_len)
             x.append(video.data), y.append(file_y.padded_label)
