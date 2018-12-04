@@ -14,13 +14,14 @@ class FrameGenerator(BaseGenerator):
     batch_size: int of desired number images per epoch
     n_channels: <-
     '''
-    def __init__(self, list_IDs, data_dirs, batch_size, absolute_max_string_len = 32, shuffle = True):
+    def __init__(self, list_IDs, data_dirs, batch_size, absolute_max_string_len = 32, output_size = 28, shuffle = True):
         # lists of paths to images
         self.list_IDs = list_IDs
         self.data_dirs = data_dirs # [s1_path, s1_align_paths]
         self.batch_size = batch_size
         self.shuffle = shuffle
         self.indexes = np.arange(len(self.list_IDs))
+        self.output_size = output_size
         self.align = enumerate_align_hash(data_dirs[1], absolute_max_string_len)
 
     def data_gen(self, list_IDs_temp):
@@ -54,7 +55,7 @@ class FrameGenerator(BaseGenerator):
           'input_length': input_length,
           'label_length': label_length,
          }
-        outputs = {'ctc': np.zeros([size])}
+        outputs = {'ctc': np.zeros([output_size])}
         return (inputs, outputs)
 #
 # list_IDs = get_list_IDs(s1_path)
