@@ -55,7 +55,7 @@ class FrameGenerator(BaseGenerator):
           'input_length': input_length,
           'label_length': label_length,
          }
-        outputs = {'ctc': np.zeros([output_size])}
+        outputs = {'ctc': np.zeros([self.output_size])}
         return (inputs, outputs)
 #
 # list_IDs = get_list_IDs(s1_path)
