@@ -38,12 +38,22 @@ class FrameGenerator(BaseGenerator):
             # for file_x, file_y in zip(batch_x, batch_y):
             file_x = os.path.join(self.data_dirs[0] + file_id + '.mpg')
             file_y = self.align[file_id]#os.path.join(self.data_dirs[1] + file_id + '.align')
-
-            videodata = np.asarray(skvideo.io.vread(file_x))
-            assert len(videodata.shape) >= 4
-            x.append(videodata), y.append(file_y.label)
-
-        return (x,y)
+            
+            # assume 4d
+            video = skvideo.io.vread(file_x)
+            
+            label_length.append(align.label_length) # CHANGED [A] -> A, CHECK!
+            # input_length.append([video_unpadded_length - 2]) # 2 first frame discarded
+            input_length.append(video.length) # Just use the video padded length to avoid CTC No path found error (v_len < a_len)
+            x.append(video.data), y.append(file_y.padded_label)
+            
+        inputs = {'the_input': x,
+          'the_labels': y,
+          'input_length': input_length,
+          'label_length': label_length,
+         }
+        outputs = {'ctc': np.zeros([size])}
+        return (inputs, outputs)
 #
 # list_IDs = get_list_IDs(s1_path)
 # data_dirs = [s1_path, s1_align_path]
