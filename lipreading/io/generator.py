@@ -2,8 +2,8 @@ from MathResearchQHSS.lipreading.io.io_utils import *
 import numpy as np
 import keras
 import skvideo
-path = 'C:\\Users\\jchen\\Downloads\\Programming\\ffmpeg\\ffmpeg\\bin\\'
-skvideo.setFFmpegPath(path)
+# path = 'C:\\Users\\jchen\\Downloads\\Programming\\ffmpeg\\ffmpeg\\bin\\'
+# skvideo.setFFmpegPath(path)
 
 
 # generator to load files iteratively (75 frames at a time)
