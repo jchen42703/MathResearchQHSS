@@ -5,9 +5,8 @@ from keras.layers.wrappers import Bidirectional, TimeDistributed
 from keras.layers.recurrent import GRU
 from keras.layers import Input
 from keras.models import Model
-from model_utils import CTC
 from keras import backend as K
-
+from MathResearchQHSS.lipreading.model_utils import CTC
 
 class LipNet(object):
     def __init__(self, img_c=3, img_w=576, img_h=720, frames_n=75, absolute_max_string_len=32, output_size=28):
