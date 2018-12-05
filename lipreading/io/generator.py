@@ -13,7 +13,10 @@ class FrameGenerator(BaseGenerator):
     list_IDs: file IDs (without the suffix); files must be .mpg and .align files
     data_dirs: list of [training_dir, labels_dir]
     batch_size: int of desired number images per epoch
-    n_channels: <-
+    absolute_max_string_len: IDK what this is but it's important for getting labels
+    output_size: output_size for the networks from the CTC layer
+    resize_shape: 4D tuple for shape where n_frames is the first element
+    shuffle: boolean on whether or not you want to shuffle the dataset
     '''
     def __init__(self, list_IDs, data_dirs, batch_size, absolute_max_string_len = 32, 
                  output_size = 28, resize_shape = (75,192, 240, 3), shuffle = True):
