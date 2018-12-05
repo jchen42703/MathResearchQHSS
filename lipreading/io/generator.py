@@ -2,6 +2,7 @@ from MathResearchQHSS.lipreading.io.io_utils import *
 import numpy as np
 import keras
 import skvideo
+from skimage.transform import resize
 # path = 'C:\\Users\\jchen\\Downloads\\Programming\\ffmpeg\\ffmpeg\\bin\\'
 # skvideo.setFFmpegPath(path)
 
