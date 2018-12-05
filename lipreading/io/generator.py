@@ -45,9 +45,6 @@ class FrameGenerator(BaseGenerator):
             # assume 4d
             video = np.asarray(skvideo.io.vread(file_x))
             # assumes the resize_shape is the max
-            if video.shape[0] < self.resize_shape[0]:
-                difference = self.resize_shape[0] - video.shape[0]
-                video = np.vstack([video, video[-difference:]])
             label_length.append(file_y.label_length) # CHANGED [A] -> A, CHECK!
             # input_length.append([video_unpadded_length - 2]) # 2 first frame discarded
             input_length.append(video.shape[0]) # Just use the video padded length to avoid CTC No path found error (v_len < a_len)
