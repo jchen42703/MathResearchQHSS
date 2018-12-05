@@ -16,7 +16,7 @@ class FrameGenerator(BaseGenerator):
     n_channels: <-
     '''
     def __init__(self, list_IDs, data_dirs, batch_size, absolute_max_string_len = 32, 
-                 output_size = 28, resize_shape = (192, 240, 3), shuffle = True):
+                 output_size = 28, resize_shape = (75,192, 240, 3), shuffle = True):
         # lists of paths to images
         self.list_IDs = list_IDs
         self.data_dirs = data_dirs # [s1_path, s1_align_paths]
@@ -48,7 +48,7 @@ class FrameGenerator(BaseGenerator):
             # assume 4d
             load_data = np.asarray(skvideo.io.vread(file_x))
             old = load_data.shape
-            video = np.asarray([resize(load_data[i], self.resize_shape) for i in range(old[0])])
+            video = np.asarray([resize(load_data[i], self.resize_shape[-3:]) for i in range(old[0])])
             
             label_length.append(file_y.label_length) # CHANGED [A] -> A, CHECK!
             # input_length.append([video_unpadded_length - 2]) # 2 first frame discarded
