@@ -55,6 +55,7 @@ class FrameGenerator(BaseGenerator):
             if video.shape[0] < self.resize_shape[0]:
                 # assumes the resize_shape is the max
                 difference = self.resize_shape[0] - video.shape[0]
+                assert difference < self.resize_shape[0]
                 video = np.vstack([video, video[-difference:]])
             label_length.append(file_y.label_length) # CHANGED [A] -> A, CHECK!
             # input_length.append([video_unpadded_length - 2]) # 2 first frame discarded
