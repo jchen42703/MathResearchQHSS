@@ -14,7 +14,8 @@ class FrameGenerator(BaseGenerator):
     batch_size: int of desired number images per epoch
     n_channels: <-
     '''
-    def __init__(self, list_IDs, data_dirs, batch_size, absolute_max_string_len = 32, output_size = 28, shuffle = True):
+    def __init__(self, list_IDs, data_dirs, batch_size, absolute_max_string_len = 32, 
+                 output_size = 28, resize_shape = (192, 240, 3), shuffle = True):
         # lists of paths to images
         self.list_IDs = list_IDs
         self.data_dirs = data_dirs # [s1_path, s1_align_paths]
@@ -22,6 +23,7 @@ class FrameGenerator(BaseGenerator):
         self.shuffle = shuffle
         self.indexes = np.arange(len(self.list_IDs))
         self.output_size = output_size
+        self.resize_shape = resize_shape
         self.align = enumerate_align_hash(data_dirs[1], absolute_max_string_len)
 
     def data_gen(self, list_IDs_temp):
@@ -43,7 +45,9 @@ class FrameGenerator(BaseGenerator):
             file_y = self.align[file_id]#os.path.join(self.data_dirs[1] + file_id + '.align')
             
             # assume 4d
-            video = np.asarray(skvideo.io.vread(file_x))
+            load_data = np.asarray(skvideo.io.vread(file_x))
+            old = load_data.shape
+            video = np.asarray([resize(arr[i], self.resize_shape) for i in range(old[0])])
             
             label_length.append(file_y.label_length) # CHANGED [A] -> A, CHECK!
             # input_length.append([video_unpadded_length - 2]) # 2 first frame discarded
