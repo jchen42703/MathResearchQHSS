@@ -30,4 +30,8 @@ pip install -r requirements.txt
 cd '/home/'
 python import MathResearchQHSS
 ```
-
+To address the addition of `/lipreading`: 
+```
+apt install ffmpeg
+pip install ffmpeg sk-video
+```
