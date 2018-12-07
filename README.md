@@ -1,5 +1,5 @@
 # Math Research QHSS
-Code snippets for various statistics tests for math research. QHSS@YC
+Relevant statistics and machine learning procedures for math research in QHSS@YC
 
 ## Statistics Tests
 * Chi-Square`[]`
