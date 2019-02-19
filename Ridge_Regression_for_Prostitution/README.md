@@ -1,1 +1,1 @@
-Hello World
+A ridge regression was utilized in "A Statistical Analysis of Sexual Services in America". The notebook containing the execution of the machine learning technique as well are more details regarding it is attached. 
