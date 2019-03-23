@@ -1,0 +1,2 @@
+# Moody's 2019 Submission
+This is the junior team's submission to the [Mathworks M3 Challenge](https://m3challenge.siam.org/practice-problems/2019-challenge-problem-one-too-many-and-thousand-not-enough-substance-use-and). We only really finished Part 1. Part 2 was for the most part a failure. Part 3 was only partially finished (did not take non-financial factors into consideration for the metric).
