@@ -1,4 +1,8 @@
 # QHSS Math Research Students and Projects
+This is a curated list of important student information. The Trainer role refers
+to students who mentor new math research students. All students in this document have at least made it into the New
+York City Science and Engineering Fair (NYCSEF) at some point in high school.
+
 ## Current Students
 ### Seniors (Class of 2020)
 <table>
@@ -72,7 +76,7 @@
     </tr>
     <!--row (person information)-->
     <tr>
-      <td align="center">Tasnim Ride</td>
+      <td align="center">Tasnim Rida</td>
       <td align="center">Applied Statistics</td>
       <td align="center">
         <ul>
@@ -118,10 +122,37 @@
 </table>
 
 ## Notable Alumni
-* [Suha Sabi (Suhacker) Hussain '19](https://sshussain.me/)
-  * **Currently**: Computer Science Student at Georgia Tech
-  * Former Chief Trainer; Machine Learning Security Researcher; ISEF '18 and '19
-  * Projects: "Detecting Privacy Violations in Children's Apps" (NYU CCS: Prof. Karri), "A New Method for the Exploitation of Speech Recognition Systems" (NYU CCS: Prof. Karri), and "The Effect of Neural Network Architecture on Quadcopter Control Systems"
-* Lauren Ye '20
-  * Computer Science Researcher
-  * Project: "The Effect of Neural Network Architecture on Motor Speed Control Systems"
+<table>
+  <tbody>
+    <!-- header row -->
+    <tr>
+      <th>Name</th>
+      <th align="center">Field</th>
+      <th align="center">Projects, Mentors, and Awards</th>
+      <th align="center">Current Role</th>
+    </tr>
+    <!--row (person information)-->
+    <tr>
+      <td align="center"><a href="https://sshussain.me/">Suha Sabi (Suhacker) Hussain (2019)</a></td>
+      <td align="center">Machine Learning Security</td>
+      <td align="center">
+        <ul>
+          <li>Detecting Privacy Violations in Children's Apps (NYU CCS: Prof. Karri); ISEF '19</li>
+          <li>A New Method for the Exploitation of Speech Recognition Systems (NYU CCS: Prof. Karri); ISEF '18</li>
+          <li>The Effect of Neural Network Architecture on Quadcopter Control Systems; NYCSEF '17</li>
+        </ul>
+      </td>
+      <td align="center">Student at Georgia Tech (2023)</td>
+    </tr>
+    <!--row (person information)-->
+    <tr>
+      <td align="center">Lauren Ye (2020)</td>
+      <td align="center">Computer Science</td>
+      <td align="center">
+        <ul>
+          <li>The Effect of Neural Network Architecture on Motor Speed Control Systems;
+            NYCSEF '18 & Intel Excellence in Computer Science ($200)</li>
+        </ul>
+      </td>
+      <td align="center">Senior at QHSS</td>
+    </tr>
