@@ -8,7 +8,11 @@
   
   
 **Notable Alumni:**
-* Suha Sabi (Suhacker) Hussain '19
+* [Suha Sabi (Suhacker) Hussain '19](sshussain.me)
   * **Currently**: Computer Science Student at Georgia Tech
   * Former Chief Trainer; Machine Learning Security Researcher; ISEF '18 and '19 
   * Projects: "Detecting Privacy Violations in Children's Apps" (NYU CCS: Prof. Karri), "A New Method for the Exploitation of Speech Recognition Systems" (NYU CCS: Prof. Karri), and "The Effect of Neural Network Architecture on Quadcopter Control Systems"
+* Lauren Ye '20
+  * Computer Science Researcher
+  * Project: "The Effect of Neural Network Architecture on Motor Speed Control Systems"
+ 
