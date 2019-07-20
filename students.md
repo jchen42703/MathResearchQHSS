@@ -20,7 +20,7 @@
           <li><a href="https://github.com/jchen42703/segmenting-sts">Using Convolutional Neural Networks for the Automated Segmentation of Soft Tissue Sarcoma</a></li>
         </ul>
       </td>
-      <td>Chief Trainer</td>
+      <td align="center">Chief Trainer</td>
     </tr>
     <!--row (person information)-->
     <tr>
@@ -33,7 +33,7 @@
           </a></li>
         </ul>
       </td>
-      <td>Senior Trainer</td>
+      <td align="center">Senior Trainer</td>
     </tr>
     <!--row (person information)-->
     <tr>
@@ -44,7 +44,7 @@
           <li>A New Ring Theory Based Algorithm and Stopping Criterion for Image Segmentation (York College: Professor Rishi Nath)</li>
         </ul>
       </td>
-      <td>Senior Trainer</td>
+      <td align="center">Senior Trainer</td>
     </tr>
     <!--row (person information)-->
     <tr>
@@ -55,7 +55,7 @@
           <li>Bayesian Neural Networks for Fashion Classification</li>
         </ul>
       </td>
-      <td>N/A</td>
+      <td align="center">N/A</td>
     </tr>
   </tbody>
 </table>
@@ -79,7 +79,7 @@
           <li>The Effect of Biodiversity on GDP</li>
         </ul>
       </td>
-      <td>Junior Trainer</td>
+      <td align="center">Junior Trainer</td>
     </tr>
     <!--row (person information)-->
     <tr>
@@ -90,7 +90,7 @@
           <li>The Effect of CEO Behavior on Stock Prices</li>
         </ul>
       </td>
-      <td>Junior Trainer</td>
+      <td align="center">Junior Trainer</td>
     </tr>
     <!--row (person information)-->
     <tr>
@@ -101,7 +101,7 @@
           <li>The Correlation Between the Category of an Item and its Shipping Origin on Agora</li>
         </ul>
       </td>
-      <td>Junior Trainer</td>
+      <td align="center">Junior Trainer</td>
     </tr>
     <!--row (person information)-->
     <tr>
@@ -112,7 +112,7 @@
           <li><a href="https://github.com/jimmyzhang2003/EpiModel-Networks">The Effect of Host Heterogeneity on the Predictability of Network Disease Models</a></li>
         </ul>
       </td>
-      <td>Junior Trainer</td>
+      <td align="center">Junior Trainer</td>
     </tr>
   </tbody>
 </table>
