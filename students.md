@@ -2,28 +2,28 @@
 * [Joseph Chen '20]()
   * **Current Chief Trainer**
   * Medical Machine Learning Researcher 
-  * Projects: "","Capsule Networks for the Automated Segmentation of Left Atrium in Cardiac MRI", and ""
+  * Projects: "Capsule Networks for the Automated Segmentation of Left Atrium in Cardiac MRI"
 * Varshini Pillai '20
   * Applied Statistics Researcher
-  * Projects: "TBD" (Chandini Pillai of NYU), "A Statistical Analysis of Sexual Services in America" (Jaron Hylton of Northeastern University), and ""
+  * Projects: "A Statistical Analysis of Sexual Services in America" (Jaron Hylton of Northeastern University)
 * Alisa Rahim '20
   * Pure Mathematics (Ring Theory) Researcher
-  * Projects: "TBD" (), "A New Ring Theory Based Algorithm and Stopping Criterion for Image Segmentation" (Prof. Rishi Nath of York College), and ""
+  * Projects: "A New Ring Theory Based Algorithm and Stopping Criterion for Image Segmentation" (Prof. Rishi Nath of York College)
 * Jeshua Kim '20
   * Medical Machine Learning Researcher
-  * Projects: ""
+  * Projects: "Bayesian Neural Networks for Fashion Classification"
 * Tasnim Rida '21
   * Applied Statistics Researcher
-  * Projects: "TBD" () and "The Effect of Biodiversity on GDP"
+  * Projects: "The Effect of Biodiversity on GDP"
 * Danielle Senderovich '21
   * Applied Statistics Researcher
-  * Projects: "TBD" () and "The Effect of CEO Behavior on Stock Prices"
+  * Projects: "The Effect of CEO Behavior on Stock Prices"
 * Jimmy Zhang '21
   * Computer Science Researcher
-  * Projects: "TBD" () and "The Effect of Host Heterogeneity on the Predictability of Network Disease Models"
+  * Projects: "The Effect of Host Heterogeneity on the Predictability of Network Disease Models"
 * Sunny Chan '21
   * Computer Science and Statistics Researcher
-  * Projects: "TBD" () and "The Correlation Between the Category of an Item and its Shipping Origin on Agora"
+  * Projects: "The Correlation Between the Category of an Item and its Shipping Origin on Agora"
 
   
 **Notable Alumni:**
